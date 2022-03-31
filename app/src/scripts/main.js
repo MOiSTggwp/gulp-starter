@@ -1,3 +1,3 @@
-function lol() {
-    return 'lol';
-}
+$(function () {
+
+});

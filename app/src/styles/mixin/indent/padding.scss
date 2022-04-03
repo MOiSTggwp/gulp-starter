@@ -1,0 +1,36 @@
+// PADDING @include p(('p': 5px)); or @include p(('px': 5px, 'py': 10px));
+@use 'sass:list';
+
+@function padding($val) {
+    $paddings: (
+        'p': ('padding'),
+        "px": ('padding-left', 'padding-right'),
+        "py": ('padding-top', 'padding-bottom'),
+        "pl": ('padding-left'),
+        "pr": ('padding-right'),
+        "pt": ('padding-top'),
+        "pb": ('padding-bottom'),
+    );
+    $res: ();
+    @each $k, $v in $val {
+        @each $key, $value in $paddings {
+            @if($key == $k) {
+                $res: list.join($res, ($value: $v));
+            }
+        }
+    }
+    @return $res;
+}
+
+@mixin p($p) {
+    $padding: padding($p);
+    @each $key, $value in $padding {
+        @if(list.length($key) > 1) {
+            @each $val in $key {
+                #{$val}: #{$value};
+            }
+        } @else {
+            #{$key}: #{$value};
+        }
+    }
+}

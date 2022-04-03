@@ -1,0 +1,36 @@
+// MARGIN @include m(('m': 5px)); or @include m(('mx': 5px, 'my': 10px));
+@use 'sass:list';
+
+@function margin($val) {
+    $margins: (
+        'm': ('margin'),
+        "mx": ('margin-left', 'margin-right'),
+        "my": ('margin-top', 'margin-bottom'),
+        "ml": ('margin-left'),
+        "mr": ('margin-right'),
+        "mt": ('margin-top'),
+        "mb": ('margin-bottom'),
+    );
+    $res: ();
+    @each $k, $v in $val {
+        @each $key, $value in $margins {
+            @if($key == $k) {
+                $res: list.join($res, ($value: $v));
+            }
+        }
+    }
+    @return $res;
+}
+
+@mixin m($m) {
+    $margin: margin($m);
+    @each $key, $value in $margin {
+        @if(list.length($key) > 1) {
+            @each $val in $key {
+                #{$val}: #{$value};
+            }
+        } @else {
+            #{$key}: #{$value};
+        }
+    }
+}

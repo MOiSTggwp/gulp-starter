@@ -1,0 +1,56 @@
+// @include mixin.font-face(('Roboto': ('Bold', 'Regular'), 'Romani': 'Regular'), 'italic');
+// font-family: 'roboto-bold', 'roboto-regular', 'romani-regular';
+
+@use 'sass:list';
+@use 'sass:string';
+@use 'sass:map';
+
+ @function while($w) {
+    $w: string.to-lower-case($w);
+    $while: (
+        'thin': '100',
+        'extralight': '200',
+        'light': '300',
+        'regular': '400',
+        'medium': '500',
+        'semibold': '600',
+        'bold': '700',
+        'extrabold': '800',
+        'black': '900',
+    );
+    $res: '';
+    @each $key, $value in $while {
+        @if($key == $w) {
+            $res: $value;
+        }
+    }
+    @return $res;
+ }
+
+@function names($names) {
+    $res: ();
+    @each $key, $value in $names {
+        @each $val in $value {
+            $res: list.join($res, ($key: ('while': while($val), 'fullName': #{$key}-#{$val})))
+        }
+    }
+    @return $res;
+}
+
+@mixin links($name, $url, $f) {
+    @each $format in $f {
+        src: url($url + $name + '.' + $format) format($format);
+    }
+}
+
+@mixin face($n, $s: 'normal', $url: './fonts/', $f: ('eot', 'ttf', 'woff', 'woff2')) {
+    $names: names($n);
+    @each $key, $value in $names {
+        @font-face {
+            font-family: string.to-lower-case(map.get($value, 'fullName'));
+            @include links(map.get($value, 'fullName'), $url, $f);
+            font-weight: string.unquote(string.to-lower-case(map.get($value, 'while')));
+            font-style: string.to-lower-case($s);
+        }
+    }
+}

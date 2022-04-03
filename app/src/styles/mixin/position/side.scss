@@ -1,0 +1,43 @@
+// SIDE POSITION @include side(('i': 0px)); or @include side(('ix': 10%, 'iy': 0px));
+@use 'sass:list';
+
+@function sides($val) {
+    $sides: (
+        'i': ('left', 'right', 'top', 'bottom'),
+        'ix': ('left', 'right'),
+        'iy': ('top', 'bottom'),
+        'lt': ('left', 'top'),
+        'lb': ('left', 'bottom'),
+        'rt': ('right', 'top'),
+        'rb': ('right', 'bottom'),
+        'l': ('left'),
+        'r': ('right'),
+        't': ('top'),
+        'b': ('bottom'),
+    );
+    $res: ();
+    @each $key, $value in $sides {
+        @each $k, $v in $val {
+            @if($key == $k) {
+                $res: list.join($res, ($value: $v));
+            }
+        }
+    }
+    @debug $res;
+    @return $res;
+}
+
+@mixin side($s) {
+    $sides: sides($s);
+
+    @each $key, $value in $sides {
+        @if(list.length($key) > 1) {
+            @each $val in $key {
+                #{$val}: #{$value};
+            }
+        } @else {
+            #{$key}: #{$value};
+        }
+    }
+}
+

@@ -1,0 +1,23 @@
+////////////////////////////// BASE>
+// FONT-FACE
+$font-face-normal: (); //('Roboto': ('Bold', 'Regular'), 'Romani': 'Regular')
+$font-face-italic: (); //('Roboto': ('Bold', 'Regular'), 'Romani': 'Regular')
+
+// FONT
+$base-font-family: 'sans-serif';
+$base-font-size: 14px;
+$base-font-weight: 400;
+$base-line-height: 100%;
+$base-color: #000;
+
+// CONTAINER
+$base-container-width: 1200;
+$base-container-padding: 12;
+
+// MEDIA
+$container-padding-xs: 0;
+$container-padding-sm: 4;
+$container-padding-md: 4;
+$container-padding-lg: 8;
+$container-padding-xl: 8;
+////////////////////////////// <BASE

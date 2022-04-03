@@ -1,0 +1,14 @@
+@use "sass:map";
+@use "../indent";
+
+@mixin container($width, $padding) {
+    .container {
+        @if ($width == "full") {
+            width: 100%;
+        } @else {
+            max-width: #{($width)}px;
+        }
+        @include indent.p(("px": #{$padding}px,));
+        @include indent.m(("mx": auto,));
+    }
+}

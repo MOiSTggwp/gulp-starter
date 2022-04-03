@@ -1,0 +1,42 @@
+
+@use 'sass:meta';
+@use 'sass:math';
+@use 'sass:map';
+@use '../indent';
+@use '../../base/vars';
+
+@mixin box($box, $w, $p) {
+    $m: 320;
+    @if($w == 'full') {
+        $w: 1920;
+    } 
+    $rw: math.div($w - $m, 5);
+    $widths: (
+        'xs': ('w': 0, 'mw': ($m + $rw) - 1, 'p': vars.$container-padding-sm * 2),
+        'sm': ('w': $m + $rw, 'mw': ($m + $rw * 2) - 1, 'p': vars.$container-padding-md * 2),
+        'md': ('w': $m + $rw * 2, 'mw': ($m + $rw * 3) - 1, 'p': vars.$container-padding-lg * 2),
+        'lg': ('w': $m + $rw * 3, 'mw': ($m + $rw * 4) - 1, 'p': vars.$container-padding-xl * 2),
+        'xl': ('w': $m + $rw * 4, 'mw': ($m + $rw * 5) - 1, 'p': vars.$base-container-padding * 2),
+        'base': ('w': $w, 'mw': $w, 'p': vars.$base-container-padding * 2),
+    );
+    $width: '';
+    $max-width: '';
+    $padding: '';
+    @each $key, $value in $widths {
+        @each $val in $box {
+            @if($key == $val) {
+                $width: map.get($value, 'w');
+                $max-width: map.get($value, 'mw');
+                $padding: map.get($value, 'p');
+            }
+        }
+    }
+    @media screen and (min-width: #{$width}px) and (max-width: #{$max-width + $padding}px){
+        .container{
+            max-width: #{$max-width + $padding}px;
+            @include indent.p(('px': $p + px));
+        }
+        @content;
+    }
+    @debug $widths;
+}

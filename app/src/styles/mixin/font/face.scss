@@ -31,24 +31,28 @@
     $res: ();
     @each $key, $value in $names {
         @each $val in $value {
-            $res: list.join($res, ($key: ('while': while($val), 'fullName': #{$key}-#{$val})))
+            $res: list.join($res, ($key: ('while': while($val), 'fullName': #{$key}-#{$val}, 'name': #{$key})));
         }
     }
     @return $res;
 }
 
-@mixin links($name, $url, $f) {
+@mixin links($name, $n, $url, $f) {
+    $src: local(#{$name}) + ', ' + local(#{$n}) + ', ';
     @each $format in $f {
-        src: url($url + $name + '.' + $format) format($format);
+        $src: $src 
+        + url($url + $name + '.' + if($format == 'eot', $format + '?#iefix', $format)) format(if($format == 'ttf', 'truetype', $format)) 
+        + if(list.nth($f, list.length($f)) == $format, null, ', ');
     }
+    src: $src;
 }
 
 @mixin face($n, $s: 'normal', $url: './fonts/', $f: ('eot', 'ttf', 'woff', 'woff2')) {
     $names: names($n);
     @each $key, $value in $names {
         @font-face {
-            font-family: string.to-lower-case(map.get($value, 'fullName'));
-            @include links(map.get($value, 'fullName'), $url, $f);
+            font-family: string.to-lower-case(map.get($value, 'name'));
+            @include links(map.get($value, 'fullName'), map.get($value, 'name'), $url, $f);
             font-weight: string.unquote(string.to-lower-case(map.get($value, 'while')));
             font-style: string.to-lower-case($s);
         }

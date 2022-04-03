@@ -1,0 +1,20 @@
+@use 'vars';
+@use 'mixin';
+
+body{
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+
+    font-family: vars.$base-font-family;
+    font-size: vars.$base-font-size;
+    font-weight: vars.$base-font-weight;
+    line-height: vars.$base-line-height;
+    color: vars.$base-color;
+}
+
+.wrapper{
+    flex: 1;
+}
+
+@include mixin.layout-container(vars.$base-container-width, vars.$base-container-padding);

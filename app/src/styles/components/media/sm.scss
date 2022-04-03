@@ -1,0 +1,7 @@
+@use '../../base';
+@use '../../mixin';
+@use 'sass:math';
+
+@include mixin.media-box('sm', base.$base-container-width, base.$container-padding-sm){
+
+};

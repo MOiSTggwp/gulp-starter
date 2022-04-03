@@ -1,4 +1,8 @@
 @use 'mixin';
+@use 'vars';
+
+@include mixin.font-face(vars.$font-face-normal);
+@include mixin.font-face(vars.$font-face-italic, 'italic');
 
 // @include mixin.font-face(('Roboto': ('Bold', 'Regular'), 'Romani': 'Regular'), 'italic');
 // font-family: 'roboto-bold', 'roboto-regular', 'romani-regular';

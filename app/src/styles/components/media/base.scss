@@ -1,0 +1,6 @@
+@use '../../base';
+@use '../../mixin';
+
+@include mixin.media-box('base', base.$base-container-width, base.$base-container-padding){
+    
+};

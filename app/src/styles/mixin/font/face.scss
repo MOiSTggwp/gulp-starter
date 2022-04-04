@@ -47,11 +47,12 @@
     src: $src;
 }
 
-@mixin face($n, $s: 'normal', $url: './fonts/', $f: ('eot', 'ttf', 'woff', 'woff2')) {
+@mixin face($n, $s: 'normal', $url: './fonts/', $f: ('eot', 'woff2', 'woff', 'ttf')) {
     $names: names($n);
     @each $key, $value in $names {
         @font-face {
             font-family: string.to-lower-case(map.get($value, 'name'));
+            src: url($url + map.get($value, 'name') + '.' + 'eot');
             @include links(map.get($value, 'fullName'), map.get($value, 'name'), $url, $f);
             font-weight: string.unquote(string.to-lower-case(map.get($value, 'while')));
             font-style: string.to-lower-case($s);

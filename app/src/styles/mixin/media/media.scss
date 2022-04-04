@@ -10,14 +10,14 @@
     @if($w == 'full') {
         $w: 1920;
     } 
-    $rw: math.div($w - $m, 5);
+    $rw: math.floor(math.div($w - $m, 12.5));
     $widths: (
-        'xs': ('w': 0, 'mw': ($m + $rw) - 1, 'p': vars.$container-padding-sm * 2),
-        'sm': ('w': $m + $rw, 'mw': ($m + $rw * 2) - 1, 'p': vars.$container-padding-md * 2),
-        'md': ('w': $m + $rw * 2, 'mw': ($m + $rw * 3) - 1, 'p': vars.$container-padding-lg * 2),
-        'lg': ('w': $m + $rw * 3, 'mw': ($m + $rw * 4) - 1, 'p': vars.$container-padding-xl * 2),
-        'xl': ('w': $m + $rw * 4, 'mw': ($m + $rw * 5) - 1, 'p': vars.$base-container-padding * 2),
-        'base': ('w': $w, 'mw': $w, 'p': vars.$base-container-padding * 2),
+        'xs': ('w': 0, 'mw': ($m + $rw) - 1, 'p': vars.$container-padding-sm * 2), // x0 390 . 448 . 382
+        'sm': ('w': $m + $rw, 'mw': ($m + $rw * 2.5) - 1, 'p': vars.$container-padding-md * 2), // x2.5 495 . 640 . 475
+        'md': ('w': $m + $rw * 2.5, 'mw': ($m + $rw * 5) - 1, 'p': vars.$container-padding-lg * 2), // x5 670 . 960 . 630
+        'lg': ('w': $m + $rw * 5, 'mw': ($m + $rw * 7.5) - 1, 'p': vars.$container-padding-xl * 2), // x7.5 845 . 1280 . 785
+        'xl': ('w': $m + $rw * 7.5, 'mw': ($m + $rw * 10) - 1, 'p': vars.$base-container-padding * 2), // x10 1020 . 1600 . 940
+        'base': ('w': ($m + $rw * 10), 'mw': $w, 'p': vars.$base-container-padding * 2), // 1200 / 12.5 . 1920 / 12.5 . 1100 / 12.5
     );
     $width: '';
     $max-width: '';

@@ -1,0 +1,30 @@
+/// PARENT position: relative;
+/// @include blind(blue, (0 0 1 0), .4, ease-in-out);
+
+@use 'sass:list';
+@use 'sass:string';
+
+@function clip($c) {
+    $res: '';
+    @each $value in $c {
+        $res: $res + if($value == 1, 100%, 0) +  ' ';
+    }
+    @return $res;
+}
+
+@mixin blind($bg, $clip: (0 0 1 0), $time: .4, $opt: ease-in-out) {
+    &:before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #{$bg};
+        clip-path: inset(string.unquote(clip($clip)));
+        transition: #{$time}s $opt;
+    }
+     &:hover::before {
+         clip-path: inset(0 0 0 0);
+     }
+}

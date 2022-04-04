@@ -1,0 +1,57 @@
+/// @param {string} $deg - Направление rt, t и тд.
+/// @param {map} $scheme - Схема градиента ('0': #fff, '100': #000)
+/// @param {string} $type - Тип градиента '-' или '+'
+/// @param {string} $opt - Доп. опция направления для '+'
+/// @include gradient(c, ('0': '#94525c', '100': 'cyan'), '+', b);
+
+@use 'sass:map';
+@use 'sass:list';
+
+$types: (
+    '-': 'linear',
+    '+': 'radial',
+);
+$sides: (
+    'l': 'left',
+    'r': 'right',
+    't': 'top',
+    'b': 'bottom',
+    'lt': 'left top',
+    'lb': 'left bottom',
+    'rt': 'right top',
+    'rb': 'right bottom',
+    'c': 'circle',
+);
+
+@function type($t) {
+    @return map.get($types, $t);
+}
+
+@function side($s, $o) {
+    $res: ();
+    @if(map.get($sides, $s)) {
+        @if($s == 'c') {
+            $res: ('deg': map.get($sides, $s), 'opt': if($o != '', ' at ', '') + map.get($sides, $o));
+        } @else {
+            $res: ('deg': 'to ' + map.get($sides, $s), 'opt': '');
+        }
+    } @else {
+        $res: ('deg': $s + 'deg', 'opt': '');
+    }
+    @return $res;
+}
+
+@function scheme($scheme) {
+    $res: '';
+    @each $key, $value in $scheme {
+        $res: $res + $value + ' ' + $key + '%' + if(list.nth(map-keys($scheme), list.length(map-keys($scheme))) != $key, ',', '');
+    }
+    @return $res;
+}
+
+@mixin gradient($deg, $scheme, $type: '-', $opt: '') {
+    $side: side($deg, $opt);
+    background: #{type($type)} + '-gradient(' 
+    + map.get($side, 'deg') + map.get($side, 'opt') + ',' 
+    + scheme($scheme) + ')';
+}
